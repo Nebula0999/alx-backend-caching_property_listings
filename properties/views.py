@@ -13,3 +13,7 @@ def property_list(request):
 def property_list(request):
     properties = Property.objects.all().values("id", "title", "description", "price", "location", "created_at")
     return JsonResponse({"data": list(properties)})
+
+def cache_metrics(request):
+    metrics = get_redis_cache_metrics()
+    return JsonResponse(metrics)
