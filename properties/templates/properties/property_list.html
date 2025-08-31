@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Property Listings</title>
+</head>
+<body>
+    <h1>Available Properties</h1>
+    <ul>
+        {% for property in properties %}
+            <li>
+                <strong>{{ property.title }}</strong> - {{ property.location }} <br>
+                Price: ${{ property.price }} <br>
+                {{ property.description }}
+            </li>
+        {% empty %}
+            <li>No properties available.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
