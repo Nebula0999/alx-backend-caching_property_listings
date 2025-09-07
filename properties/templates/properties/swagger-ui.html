@@ -1,0 +1,21 @@
+{# templates/swagger-ui.html #}
+{% load static %}
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>{{ spectacular_settings.TITLE }}</title>
+    <link rel="stylesheet" href="{% static 'css/swagger-custom.css' %}">
+  </head>
+  <body>
+    <div id="header">
+      <img src="{% static 'img/logo.png' %}" alt="Logo" height="48">
+      <h1>{{ spectacular_settings.TITLE }}</h1>
+    </div>
+    <!-- reuse the built-in swagger-ui content provided by spectacular -->
+    {{ spectacular_swagger }}
+    <script>
+      // custom JS if you want to switch themes or add behavior
+    </script>
+  </body>
+</html>

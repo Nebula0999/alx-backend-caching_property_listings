@@ -6,9 +6,9 @@ services:
     container_name: postgres_db
     restart: always
     environment:
-      POSTGRES_USER: django_user
-      POSTGRES_PASSWORD: django_pass
-      POSTGRES_DB: property_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 15190
+      POSTGRES_DB: airbnb_backend
     ports:
       - "5432:5432"
     volumes:
@@ -25,3 +25,4 @@ services:
 
 volumes:
   postgres_data:
+  redis_data:

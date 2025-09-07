@@ -11,21 +11,25 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+import sys
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR / ".env")
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-c@fdpk0*16y17*6gaylrifr3zgx$sa&hdp#37k=tk$&edu9(rr'
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['Crissi1.pythonanywhere.com']
 
 
 # Application definition
@@ -39,6 +43,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_redis',
     'properties',
+    # DRF + Swagger
+    'rest_framework',
+    'drf_yasg',
+    'graphene_django',
+    'django_celery_beat',  
+    'django_celery_results',   # << add this line     
 ]
 
 MIDDLEWARE = [
@@ -76,9 +86,12 @@ WSGI_APPLICATION = 'alx_backend_caching_property_listings.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": os.getenv("PA_DB_NAME"),
+        "USER": os.getenv("PA_DB_USER"),
+        "PASSWORD": os.getenv("PA_DB_PASSWORD"),
+        "HOST": os.getenv("PA_DB_HOST"),
     }
 }
 
@@ -107,7 +120,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = "Africa/Nairobi"
 
 USE_I18N = True
 
@@ -124,23 +137,56 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'property_db',
-        'USER': 'django_user',
-        'PASSWORD': 'django_pass',
-        'HOST': 'postgres',  # service name from docker-compose
-        'PORT': '5432',
-    }
-}
+# Caching configuration using Redis
 
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://redis:6379/1",  # redis service from docker-compose
+        "LOCATION": "redis://127.0.0.1:6379/1",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     }
 }
+
+CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
+
+# Celery config
+'''CELERY_BROKER_URL = os.environ.get(
+    "CELERY_BROKER_URL",
+    f"redis://{os.environ.get('REDIS_HOST','redis')}:{os.environ.get('REDIS_PORT','6379')}/0",
+)'''
+CELERY_RESULT_BACKEND = os.environ.get(
+    "CELERY_RESULT_BACKEND",
+    f"redis://{os.environ.get('REDIS_HOST','redis')}:{os.environ.get('REDIS_PORT','6379')}/1",
+)
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_ENABLE_UTC = True
+CELERY_RESULT_BACKEND = 'django-db'
+
+
+# Django REST Framework + Simple JWT configuration
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ),
+}
+
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=10),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': False,
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}
+
+
