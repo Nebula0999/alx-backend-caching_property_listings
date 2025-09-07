@@ -13,18 +13,18 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 import sys
-from dotenv import load_dotenv
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-load_dotenv(BASE_DIR / ".env")
+
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
+SECRET_KEY = 'django-insecure-c@fdpk0*16y17*6gaylrifr3zgx$sa&hdp#37k=tk$&edu9(rr'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -47,8 +47,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
     'graphene_django',
-    'django_celery_beat',  
-    'django_celery_results',   # << add this line     
+    'django_celery_beat',
+    'django_celery_results',   # << add this line
 ]
 
 MIDDLEWARE = [
@@ -88,10 +88,10 @@ WSGI_APPLICATION = 'alx_backend_caching_property_listings.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": os.getenv("PA_DB_NAME"),
-        "USER": os.getenv("PA_DB_USER"),
-        "PASSWORD": os.getenv("PA_DB_PASSWORD"),
-        "HOST": os.getenv("PA_DB_HOST"),
+        "NAME": "Crissi1$default",
+        "USER": "Crissi1",
+        "PASSWORD": "Nebula@2025",
+        "HOST": "Crissi1.mysql.pythonanywhere-services.com"
     }
 }
 
