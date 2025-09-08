@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-c@fdpk0*16y17*6gaylrifr3zgx$sa&hdp#37k=tk$&edu9(rr
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['Cloudtr.pythonanywhere.com']
+ALLOWED_HOSTS = ['shawng.pythonanywhere.com']
 
 
 # Application definition
@@ -89,10 +89,10 @@ WSGI_APPLICATION = 'alx_backend_caching_property_listings.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "Cloudtr$property",
-        "USER": "Cloudtr",
+        "NAME": "shawng$default",
+        "USER": "shawng",
         "PASSWORD": "Nebula@2004",
-        "HOST": "Cloudtr.mysql.pythonanywhere-services.com"
+        "HOST": "shawng.mysql.pythonanywhere-services.com"
         
     }
 }
